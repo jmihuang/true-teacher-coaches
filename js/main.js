@@ -107,9 +107,9 @@ function renderProfiles() {
     if (hash === "#Coach") {
       title = '<h1 class="text-center mb-4 text-primary">全真教練</h1>';
     } else if (hash === "#Aerobic") {
-      title = '<h1 class="text-center mb-4 text-primary">有氧課程</h1>';
+      title = '<h1 class="text-center mb-4 text-primary">有氧老師</h1>';
     } else if (hash === "#Yoga") {
-      title = '<h1 class="text-center mb-4 text-primary">瑜珈課程</h1>';
+      title = '<h1 class="text-center mb-4 text-primary">瑜珈老師</h1>';
     } else {
       title = '<h1 class="text-center mb-4 text-primary">所有教練與老師</h1>';
     }
