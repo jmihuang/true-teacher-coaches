@@ -214,7 +214,7 @@
     "Timestamp": 45926.55340024305,
     "name": "Tiffany",
     "type": "全真授課老師",
-    "fields": "有氧課程, 瑜伽課程ㄝZumba",
+    "fields": "有氧課程, 瑜伽課程, Zumba",
     "location": "台中市",
     "Line": "https://line.me/ti/p/~aed6776t",
     "IG": "https://www.instagram.com/tiffanyjdance",
@@ -222,7 +222,7 @@
     "Threads": "https://www.threads.net/@tiffanyjdance",
     "YT ": "",
     "otherPlaces": "",
-    "feedback": ""
+    "feedback": "Tiffany dance 很歡樂，流行時下的歌，Kpop, Zumba,台語歌都有, 不用記舞步開心來跳舞"
   },
   {
     "id": 16,
@@ -507,7 +507,7 @@
     "Threads": "https://www.threads.net/@Chungpeibei",
     "YT ": "",
     "otherPlaces": "台中市區開課詳情line聯絡",
-    "feedback": ""
+    "feedback": "教練的金典學員一致好評"
   },
   {
     "id": 35,
@@ -1213,5 +1213,20 @@
     "YT ": "",
     "otherPlaces": "大無限",
     "feedback": ""
+  },
+  {
+    "id": 82,
+    "Timestamp": 45930.79087622685,
+    "name": "Marco Wu",
+    "type": "全真授課老師",
+    "fields": "MV Dance",
+    "location": "南港",
+    "Line": "",
+    "IG": "https://www.instagram.com/marco_wuwu?igsh=MTRmYTJibmVrOTNtaQ==",
+    "FB": "",
+    "Threads": "",
+    "YT ": "",
+    "otherPlaces": "外課滿堂中，排隊中",
+    "feedback": "謝謝老師總是教導的很仔細，會盡自己所能的顧到大部分的同學，並修正舞蹈姿勢突然的結束非常不習慣加傷感，但還是謝謝老師的教導❤️ \nPenny"
   }
 ]
