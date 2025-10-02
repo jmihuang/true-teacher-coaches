@@ -79,6 +79,13 @@ function renderProfiles() {
         return item.fields && (item.fields.includes("瑜珈") || item.fields.includes("瑜伽"));
       });
     }
+
+    // Sort the filtered list by name (alphabetically)
+    filteredList.sort(function (a, b) {
+      var nameA = (a.name || "").toLowerCase();
+      var nameB = (b.name || "").toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
     var html = filteredList.map(function (item, index) {
       var isYoga = String(item.fields || "").includes("瑜珈") || String(item.fields || "").includes("瑜伽");
       var imgSrc = isYoga ? "images/yoga".concat(index % 7 + 1, ".png") : "images/fitness".concat(index % 6 + 1, ".png");
