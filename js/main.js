@@ -16,6 +16,74 @@ document.addEventListener("click", function (event) {
   }
 });
 
+// Search functionality
+var searchQuery = "";
+
+// Search event listeners using event delegation
+document.addEventListener("click", function (e) {
+  // Mobile search button
+  if (e.target && e.target.id === "search-btn") {
+    var searchInput = document.getElementById("search-input");
+    if (searchInput) {
+      searchQuery = searchInput.value.trim();
+      renderProfiles();
+    }
+  }
+
+  // Desktop search button
+  if (e.target && e.target.id === "search-btn-desktop") {
+    var searchInputDesktop = document.getElementById("search-input-desktop");
+    if (searchInputDesktop) {
+      searchQuery = searchInputDesktop.value.trim();
+      renderProfiles();
+    }
+  }
+});
+
+// Search input event listeners using event delegation
+document.addEventListener("keypress", function (e) {
+  // Mobile search input
+  if (e.target && e.target.id === "search-input") {
+    if (e.key === "Enter") {
+      searchQuery = e.target.value.trim();
+      renderProfiles();
+    }
+  }
+
+  // Desktop search input
+  if (e.target && e.target.id === "search-input-desktop") {
+    if (e.key === "Enter") {
+      searchQuery = e.target.value.trim();
+      renderProfiles();
+    }
+  }
+});
+
+// Real-time search as user types
+document.addEventListener("input", function (e) {
+  // Mobile search input
+  if (e.target && e.target.id === "search-input") {
+    if (e.target.value.trim() === "") {
+      searchQuery = "";
+      renderProfiles();
+    } else {
+      searchQuery = e.target.value.trim();
+      renderProfiles();
+    }
+  }
+
+  // Desktop search input
+  if (e.target && e.target.id === "search-input-desktop") {
+    if (e.target.value.trim() === "") {
+      searchQuery = "";
+      renderProfiles();
+    } else {
+      searchQuery = e.target.value.trim();
+      renderProfiles();
+    }
+  }
+});
+
 // Render profiles from responses.json
 function renderProfiles() {
   var mount = document.getElementById("profiles-list");
@@ -80,6 +148,18 @@ function renderProfiles() {
       });
     }
 
+    // Apply search filter if search query exists
+    if (searchQuery) {
+      filteredList = filteredList.filter(function (item) {
+        var name = (item.name || "").toLowerCase();
+        var type = (item.type || "").toLowerCase();
+        var fields = (item.fields || "").toLowerCase();
+        var location = (item.location || "").toLowerCase();
+        var searchLower = searchQuery.toLowerCase();
+        return name.includes(searchLower) || type.includes(searchLower) || fields.includes(searchLower) || location.includes(searchLower);
+      });
+    }
+
     // Sort the filtered list by name (alphabetically)
     filteredList.sort(function (a, b) {
       var nameA = (a.name || "").toLowerCase();
@@ -109,9 +189,11 @@ function renderProfiles() {
       }).join("") : "") + "</div>" + "</div>" + "<div class=\"text-center mt-4\">" + "<i class=\"fas fa-map-marker-alt text-primary me-2\"></i>" + "<span id=\"location\" class=\"small\">".concat(item.location || "", "</span>") + "</div>" + "<div class=\"social-row d-flex justify-content-center gap-3 mt-4\" aria-label=\"social links\">" + (lineUrl ? "<a class=\"social-btn social-line\" href=\"".concat(lineUrl, "\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Line\"><i class=\"fab fa-line\" aria-hidden=\"true\"></i></a>") : "") + (fbUrl ? "<a class=\"social-btn social-fb\" href=\"".concat(fbUrl, "\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Facebook\"><i class=\"fab fa-facebook-f\" aria-hidden=\"true\"></i></a>") : "") + (igUrl ? "<a class=\"social-btn social-ig\" href=\"".concat(igUrl, "\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Instagram\"><i class=\"fab fa-instagram\" aria-hidden=\"true\"></i></a>") : "") + (threadsUrl ? "<a class=\"social-btn social-threads\" href=\"".concat(threadsUrl, "\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Threads\"><i class=\"fab fa-threads\" aria-hidden=\"true\"></i></a>") : "") + (ytUrl ? "<a class=\"social-btn social-yt\" href=\"".concat(ytUrl, "\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"YouTube\"><i class=\"fab fa-youtube\" aria-hidden=\"true\"></i></a>") : "") + "</div>" + "<div class=\"d-flex justify-content-center align-items-center mt-4 mb-2\">" + (item.name && item.feedback && item.feedback.trim() ? "<a href=\"#\" class=\"feedback-link text-decoration-none\" data-name=\"".concat(encodeURIComponent(item.name), "\" data-feedback=\"").concat(encodeURIComponent(item.feedback), "\">\u5B78\u54E1\u56DE\u994B</a>") : "") + (item.name && item.feedback && item.feedback.trim() && item.otherPlaces && item.otherPlaces.trim() ? "<span class=\"mx-2 text-muted\">|</span>" : "") + (item.name && item.otherPlaces && item.otherPlaces.trim() ? "<a href=\"#\" class=\"course-link text-decoration-none\" data-name=\"".concat(encodeURIComponent(item.name), "\" data-fields=\"").concat(encodeURIComponent(item.fields || ""), "\" data-type=\"").concat(encodeURIComponent(item.type || ""), "\" data-location=\"").concat(encodeURIComponent(item.location || ""), "\" data-otherplaces=\"").concat(encodeURIComponent(item.otherPlaces), "\">\u8AB2\u7A0B\u8CC7\u8A0A</a>") : "") + "</div>" + "</div>" + "</div>" + "</div>";
     }).join("");
 
-    // Add title based on filter
+    // Add title based on filter and search
     var title = "";
-    if (hash === "#Coach") {
+    if (searchQuery) {
+      title = "<h1 class=\"text-center mb-4 text-primary\">\u641C\u5C0B\u7D50\u679C: \"".concat(searchQuery, "\" (").concat(filteredList.length, " \u7B46)</h1>");
+    } else if (hash === "#Coach") {
       title = '<h1 class="text-center mb-4 text-primary">全真教練</h1>';
     } else if (hash === "#Aerobic") {
       title = '<h1 class="text-center mb-4 text-primary">有氧老師</h1>';
