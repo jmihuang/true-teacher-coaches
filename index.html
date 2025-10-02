@@ -24,6 +24,10 @@
     <header class="container-fluid bg-white sticky-top">
       <div class="container">
         <div class="navbar navbar-expand-lg navbar-light"><a class="navbar-brand" href="index.html">前全真瑜伽・教練資訊</a>
+          <!-- Mobile search button - positioned to left of burger-->
+          <div class="d-lg-none me-3">
+            <button class="btn btn-outline-primary" id="mobile-search-trigger" type="button" style="padding: 0.375rem 0.75rem;"><i class="fas fa-search"></i></button>
+          </div>
           <div class="burger-trigger d-lg-none">
             <div class="burger"><span> </span><span></span><span></span></div>
           </div>
@@ -34,12 +38,6 @@
                 <li class="burger-nav nav-item"><a class="fs-3 nav-link" href="index.html#Coach">教練群</a></li>
                 <li class="burger-nav nav-item"><a class="fs-3 nav-link" href="index.html#Aerobic">有氧老師</a></li>
                 <li class="burger-nav nav-item"><a class="fs-3 nav-link" href="index.html#Yoga">瑜珈老師</a></li>
-                <li class="burger-nav nav-item mt-3">
-                  <div class="search-container">
-                    <input class="form-control" id="search-input" type="text" placeholder="搜尋老師/教練名稱..." style="max-width: 300px;">
-                    <button class="btn btn-outline-primary ms-2" id="search-btn" type="button"><i class="fas fa-search"></i></button>
-                  </div>
-                </li>
               </ul>
             </div>
           </div>
@@ -49,10 +47,9 @@
               <li class="nav-item"><a class="nav-link" href="index.html#Coach">教練群</a></li>
               <li class="nav-item"><a class="nav-link" href="index.html#Aerobic">有氧老師</a></li>
               <li class="nav-item"><a class="nav-link" href="index.html#Yoga">瑜珈老師</a></li>
-              <li class="nav-item">
+              <li class="nav-item nav-item-search">
                 <div class="search-container d-flex align-items-center">
                   <input class="form-control" id="search-input-desktop" type="text" placeholder="搜尋老師/教練名稱..." style="max-width: 200px;">
-                  <button class="btn btn-outline-primary ms-2" id="search-btn-desktop" type="button"><i class="fas fa-search"></i></button>
                 </div>
               </li>
             </ul>
@@ -60,6 +57,26 @@
         </div>
       </div>
     </header>
+    <!-- Mobile Search Modal-->
+    <div class="modal fade" id="mobileSearchModal" tabindex="-1" aria-labelledby="mobileSearchModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="mobileSearchModalLabel">搜尋老師/教練</h5>
+            <button class="btn-close-custom text-primary" type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-window-close"></i></button>
+          </div>
+          <div class="modal-body">
+            <div class="search-container">
+              <input class="form-control" id="search-input-mobile" type="text" placeholder="搜尋老師/教練名稱..." style="width: 100%;">
+              <button class="btn btn-outline-primary mt-3 w-100" id="search-btn-mobile" type="button"><i class="fas fa-search me-2"></i>搜尋</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary modal-close-btn btn-close" type="button" data-bs-dismiss="modal">關閉</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div class="row align-items-center g-5 py-5">
         <div id="profiles-list"></div>

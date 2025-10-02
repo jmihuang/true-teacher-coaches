@@ -2,6 +2,22 @@
 document.querySelector(".burger-trigger").addEventListener("click", function (event) {
   document.querySelector(".burger").classList.toggle("active");
   event.currentTarget.classList.toggle("active");
+
+  // Clear search query and inputs when burger menu is opened to show original content
+  searchQuery = "";
+
+  // Clear mobile search input
+  var mobileSearchInput = document.getElementById("search-input-mobile");
+  if (mobileSearchInput) {
+    mobileSearchInput.value = "";
+  }
+
+  // Clear desktop search input
+  var desktopSearchInput = document.getElementById("search-input-desktop");
+  if (desktopSearchInput) {
+    desktopSearchInput.value = "";
+  }
+  renderProfiles();
 });
 
 // Close burger menu when clicking on navigation links
@@ -13,6 +29,22 @@ document.addEventListener("click", function (event) {
     // Close the burger menu
     burger.classList.remove("active");
     burgerTrigger.classList.remove("active");
+
+    // Clear search query and inputs when navigating to show original content
+    searchQuery = "";
+
+    // Clear mobile search input
+    var mobileSearchInput = document.getElementById("search-input-mobile");
+    if (mobileSearchInput) {
+      mobileSearchInput.value = "";
+    }
+
+    // Clear desktop search input
+    var desktopSearchInput = document.getElementById("search-input-desktop");
+    if (desktopSearchInput) {
+      desktopSearchInput.value = "";
+    }
+    renderProfiles();
   }
 });
 
@@ -21,32 +53,77 @@ var searchQuery = "";
 
 // Search event listeners using event delegation
 document.addEventListener("click", function (e) {
-  // Mobile search button
-  if (e.target && e.target.id === "search-btn") {
-    var searchInput = document.getElementById("search-input");
-    if (searchInput) {
-      searchQuery = searchInput.value.trim();
-      renderProfiles();
+  // Mobile search trigger button - opens modal
+  if (e.target && (e.target.id === "mobile-search-trigger" || e.target.closest("#mobile-search-trigger"))) {
+    e.preventDefault();
+    e.stopPropagation();
+    var modal = document.getElementById("mobileSearchModal");
+    if (modal) {
+      if (typeof bootstrap !== "undefined" && bootstrap.Modal) {
+        var bsModal = new bootstrap.Modal(modal);
+        bsModal.show();
+      } else {
+        // Fallback: Show modal manually with backdrop
+        modal.style.display = "block";
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+
+        // Remove existing backdrop if any
+        var existingBackdrop = document.getElementById("mobileSearchModalBackdrop");
+        if (existingBackdrop) {
+          existingBackdrop.remove();
+        }
+
+        // Add backdrop
+        var backdrop = document.createElement("div");
+        backdrop.className = "modal-backdrop fade show";
+        backdrop.id = "mobileSearchModalBackdrop";
+        backdrop.style.cssText = "position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 1040 !important; background-color: rgba(0, 0, 0, 0.5) !important;";
+        document.body.appendChild(backdrop);
+      }
     }
   }
 
-  // Desktop search button
-  if (e.target && e.target.id === "search-btn-desktop") {
-    var searchInputDesktop = document.getElementById("search-input-desktop");
-    if (searchInputDesktop) {
-      searchQuery = searchInputDesktop.value.trim();
+  // Mobile search button in modal
+  if (e.target && (e.target.id === "search-btn-mobile" || e.target.closest("#search-btn-mobile"))) {
+    e.preventDefault();
+    e.stopPropagation();
+    var searchInput = document.getElementById("search-input-mobile");
+    if (searchInput) {
+      searchQuery = searchInput.value.trim();
       renderProfiles();
+      // Close modal after search
+      var _modal = document.getElementById("mobileSearchModal");
+      if (_modal) {
+        if (typeof bootstrap !== "undefined" && bootstrap.Modal) {
+          var _bsModal = bootstrap.Modal.getInstance(_modal);
+          if (_bsModal) _bsModal.hide();
+        } else {
+          closeModal(_modal);
+        }
+      }
     }
   }
 });
 
 // Search input event listeners using event delegation
 document.addEventListener("keypress", function (e) {
-  // Mobile search input
-  if (e.target && e.target.id === "search-input") {
+  // Mobile search input in modal
+  if (e.target && e.target.id === "search-input-mobile") {
     if (e.key === "Enter") {
       searchQuery = e.target.value.trim();
       renderProfiles();
+      // Close modal after search
+      var modal = document.getElementById("mobileSearchModal");
+      if (modal) {
+        if (typeof bootstrap !== "undefined" && bootstrap.Modal) {
+          var bsModal = bootstrap.Modal.getInstance(modal);
+          if (bsModal) bsModal.hide();
+        } else {
+          closeModal(modal);
+        }
+      }
     }
   }
 
@@ -61,8 +138,8 @@ document.addEventListener("keypress", function (e) {
 
 // Real-time search as user types
 document.addEventListener("input", function (e) {
-  // Mobile search input
-  if (e.target && e.target.id === "search-input") {
+  // Mobile search input in modal
+  if (e.target && e.target.id === "search-input-mobile") {
     if (e.target.value.trim() === "") {
       searchQuery = "";
       renderProfiles();
@@ -219,6 +296,69 @@ function renderProfiles() {
 // Initialize profiles on page load
 renderProfiles();
 
+// Additional direct event listener for mobile search trigger as backup
+document.addEventListener("DOMContentLoaded", function () {
+  var mobileSearchTrigger = document.getElementById("mobile-search-trigger");
+  if (mobileSearchTrigger) {
+    mobileSearchTrigger.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Mobile search trigger clicked directly");
+      var modal = document.getElementById("mobileSearchModal");
+      if (modal) {
+        if (typeof bootstrap !== "undefined" && bootstrap.Modal) {
+          var bsModal = new bootstrap.Modal(modal);
+          bsModal.show();
+        } else {
+          // Fallback: Show modal manually with backdrop
+          modal.style.display = "block";
+          modal.classList.add("show");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.classList.add("modal-open");
+
+          // Remove existing backdrop if any
+          var existingBackdrop = document.getElementById("mobileSearchModalBackdrop");
+          if (existingBackdrop) {
+            existingBackdrop.remove();
+          }
+
+          // Add backdrop
+          var backdrop = document.createElement("div");
+          backdrop.className = "modal-backdrop fade show";
+          backdrop.id = "mobileSearchModalBackdrop";
+          backdrop.style.cssText = "position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 1040 !important; background-color: rgba(0, 0, 0, 0.5) !important;";
+          document.body.appendChild(backdrop);
+        }
+      }
+    });
+  }
+
+  // Direct event listener for mobile search button in modal
+  var mobileSearchBtn = document.getElementById("search-btn-mobile");
+  if (mobileSearchBtn) {
+    mobileSearchBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Mobile search button clicked directly");
+      var searchInput = document.getElementById("search-input-mobile");
+      if (searchInput) {
+        searchQuery = searchInput.value.trim();
+        renderProfiles();
+        // Close modal after search
+        var modal = document.getElementById("mobileSearchModal");
+        if (modal) {
+          if (typeof bootstrap !== "undefined" && bootstrap.Modal) {
+            var bsModal = bootstrap.Modal.getInstance(modal);
+            if (bsModal) bsModal.hide();
+          } else {
+            closeModal(modal);
+          }
+        }
+      }
+    });
+  }
+});
+
 // Listen for hash changes to re-filter content
 window.addEventListener("hashchange", function () {
   var mount = document.getElementById("profiles-list");
@@ -310,9 +450,17 @@ document.addEventListener("click", function (e) {
   // Handle modal-close-btn class (關閉 button)
   if (e.target.classList.contains("modal-close-btn")) {
     e.preventDefault();
-    var _modal = e.target.closest(".modal");
-    if (_modal) {
-      closeModal(_modal);
+    var _modal2 = e.target.closest(".modal");
+    if (_modal2) {
+      closeModal(_modal2);
+    }
+  }
+
+  // Handle mobile search modal backdrop click
+  if (e.target.id === "mobileSearchModalBackdrop") {
+    var _modal3 = document.getElementById("mobileSearchModal");
+    if (_modal3) {
+      closeModal(_modal3);
     }
   }
 });
@@ -325,7 +473,7 @@ function closeModal(modalElement) {
   document.body.classList.remove("modal-open");
 
   // Remove backdrop
-  var existingBackdrop = document.getElementById("modalBackdrop") || document.getElementById("courseModalBackdrop");
+  var existingBackdrop = document.getElementById("modalBackdrop") || document.getElementById("courseModalBackdrop") || document.getElementById("mobileSearchModalBackdrop");
   if (existingBackdrop) {
     existingBackdrop.remove();
   }
